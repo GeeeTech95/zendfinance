@@ -95,12 +95,11 @@
     </div>
 
     <!-- Navigation Bar-->
-    <div class="tagline hidden-md">
+    <div class="tagline">
         <div class="container">
             <div class="float-left">
                 <div class="google_translate_element" id="google_translate_element" style="">
                 </div>
-          
             </div>
             <div class="float-right">
               
@@ -139,19 +138,19 @@
                     <li class="has-submenu">
                         <a href="#">{{site_name}}</a><span class="menu-arrow"></span>
                         <ul class="submenu">
-                            <li>
+                            <!--li>
                                 <a href="#" class="nav-link active">About us</a>
                             </li>
                             <li>
                                 <a href="#" class="nav-link ">Help Center</a>
-                            </li>
+                            </li-->
                             <li>
                                 <a href="#" class="nav-link">Careers</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li class="has-submenu">
+                    <!--li class="has-submenu">
                         <a href="#">Product & Services</a><span class="menu-arrow"></span>
                         <ul class="submenu">
                             <li>
@@ -159,9 +158,9 @@
                             </li>
                         </ul>
 
-                    </li>
+                    </li-->
                     <li>
-                        <a href="#" class="nav-link">Modern Banking</a>
+                        <a href="{% url 'modern-banking' %}" class="nav-link">Modern Banking</a>
                     </li>
                     <li>
                         {% if user.is_authenticated %}
@@ -308,18 +307,20 @@
     <script src="{% static 'asset_alit/js/parallax.js' %}""></script> 
         <!-- VIDEO ICON -->
         <script src=" {% static 'asset_alit/js/magnific.init.js' %}""></script>
-    <!-- COUNTER -->
-    <script src="{% static 'asset_alit/js/counter.init.js' %}""></script>
-        <!--custom script-->
-        <script type="text/javascript">
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-            }
-        </script>
-            
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!--custom script-->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
         
-        <script src=" {% static 'asset_alit/js/app.js' %}""></script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <script src=" {% static 'asset_alit/js/app.js' %}""></script>
+
+    {% block js %}
+    {% endblock %}
 </body>
 
 

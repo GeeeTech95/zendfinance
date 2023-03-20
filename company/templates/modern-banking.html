@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+ <!-- HOME START-->
+ <section class="bg-half" style="background-image: url('{% static 'asset_alit/images/home/bg-services.jpg' %}');">
+    <div class="bg-overlay"></div>
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="page-next-level text-white">
+                            <h4 class="text-uppercase">Modern Banking</h4>
+                            <div class="page-next"> <a href="{% url 'index' %}">Home</a>
+                                 <i class="mdi mdi-chevron-right"></i> &nbsp;
+                                
+
+                                 </i> &nbsp;<span>Modern Banking</span> </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- HOME END--> 
+
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="single-service">
+                    <img style="width: 100%" src="{% static 'asset_alit/images/services/img-1.jpg' %}">
+                    <h4 class="mt-30">Pioneering innovation in the banking sector</h4>
+                    <div class="spacer-15"></div>
+                    <p class="text-muted">
+                        We never stop looking for ways to make banking simpler, smarter and better. And as our customer, you should always expect to see new developments from us. 
+                    </p>
+
+                    <p class="text-muted">
+                        We have a very clear vision – to be the best bank for customers. Our support of businesses continues to be recognised by many of the leading publications within the financial services industry.
+                    </p>
+
+                    <h5>Why Choose Us ?</h5>
+                    <div class="more-services">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="types-of-service p-30 mt-30">
+                                    <div class="service-icon text-custom">
+                                        <i class="fas fa-chalkboard-teacher float-left mb-0"></i>
+                                    </div>
+                                    <div class="service-head">
+                                        <h4 class="text-uppercase">Personalized Experience</h4>
+                                        <p class="text-muted mb-0">
+                                            We don't operate on industry generics, we have built our work flow to suit your personalized needs.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="types-of-service p-30 mt-30">
+                                    <div class="service-icon text-custom">
+                                        <i class="fas fa-hand-holding-heart float-left mb-0"></i>
+                                    </div>
+                                    <div class="service-head">
+                                        <h4 class="text-uppercase">Business Support</h4>
+                                        <p class="text-muted mb-0">
+                                            We care for your business financials more than you do. Always trust us to keep you covered
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="types-of-service p-30 mt-30">
+                                    <div class="service-icon text-custom">
+                                        <i class="fas fa-wrench float-left mb-0"></i>
+                                    </div>
+                                    <div class="service-head">
+                                        <h4 class="text-uppercase">24/7 Support</h4>
+                                        <p class="text-muted mb-0">
+                                           We are closer to you than you think. We would always answer when you call.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="col-lg-4 col-md-4">
+              
+
+              
+                
+                <!-- TAG -->
+                <div class="sidebar p-30">
+                    <div class="widget">
+                        <h4 class="text-uppercase text-center">Tags</h4>
+                        <div class="text-center tagcloud">
+                           
+                            <a href="#0">Finance</a>
+                            <a href="#0">Marketing</a>
+                            <a href="#0">Corporate</a>
+                            <a href="#0">Business</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- TAG -->
+
+               
+            </div>
+            <!-- SIDEBAR -->
+        </div>     
+    </div>
+</section>
+
+
+{% endblock %}
