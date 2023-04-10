@@ -2,7 +2,7 @@ from django import template
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from core.helpers import currency_convert
-
+import decimal
 register = template.Library()
 
 
@@ -23,3 +23,10 @@ def intdivide(value, div):
         return int(value)//int(div)
     except (ValueError, ZeroDivisionError):
         return None
+
+@register.filter
+def to_decimal(value) :
+    try :
+        return decimal.Decimal("{:.2f}".format(value))      
+    except :
+        return 0.00  

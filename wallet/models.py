@@ -38,22 +38,26 @@ class Wallet(models.Model):
         super(Wallet, self).save(*args, **kwargs)
 
     @property
-    def ledger_balance(self):
-        credits = self.user.transaction.filter(
+    def income(self):
+        return self.user.transaction.filter(
             transaction_type="credit",
             status="successful"
         ).aggregate(
             credits=Sum("amount")
         )['credits'] or 0.00
 
-        debits = self.user.transaction.filter(
+    @property
+    def expense(self):
+        return self.user.transaction.filter(
             transaction_type="debit",
             status="successful"
         ).aggregate(
             debits=Sum("amount")
         )['debits'] or 0.00
 
-        return credits - debits
+    @property
+    def ledger_balance(self):
+        return self.income - self.expense
 
     @property
     def available_balance(self):
@@ -104,7 +108,7 @@ class Transaction(models.Model):
     # if transfer,can be blank for international transfer
     receiver = models.ForeignKey(get_user_model(
     ), related_name='transfer_receiver', on_delete=models.CASCADE, null=True, blank=True)
-    status_message = models.TextField(blank = True, null = True)
+    status_message = models.TextField(blank=True, null=True)
     charge = models.FloatField(blank=True, default=0.0, null=False)
 
     # for international transfer
@@ -118,12 +122,12 @@ class Transaction(models.Model):
 
     date = models.DateTimeField(auto_now_add=True)
     new_date = models.DateTimeField(null=True, blank=True)
-    mail_is_sent = models.BooleanField(default = False)
+    mail_is_sent = models.BooleanField(default=False)
 
-    def as_dict(self) :
-        dict_vals =  dict((field.name, getattr(self, field.name)) for field in self._meta.fields)
+    def as_dict(self):
+        dict_vals = dict((field.name, getattr(self, field.name))
+                         for field in self._meta.fields)
         return dict_vals
-
 
     def fulfill(self):
         """
@@ -139,21 +143,20 @@ class Transaction(models.Model):
         elif self.status == "failed":
             return {"error": 'You cannot process this transaction, please contact support.'}
 
-
         if self.nature == "Internal Transfer":
             # create for credit
             data = self.as_dict()
             print(data)
-            del data['transaction_id'] #maintain unique values
-            if data.get("id") : del data['id']
+            del data['transaction_id']  # maintain unique values
+            if data.get("id"):
+                del data['id']
             credit_trx = Transaction(
-               **data
+                **data
             )
             credit_trx.status = "successful"
             credit_trx.transaction_type = "credit"
             credit_trx.user = self.receiver
             credit_trx.save()
-           
 
             # create for debit
             debit_trx = Transaction(
@@ -162,9 +165,9 @@ class Transaction(models.Model):
             debit_trx.transaction_type = "debit"
             debit_trx.status = "successful"
             debit_trx.save()
-            
+
             # delete this transaction
-            self.delete()  
+            self.delete()
 
         else:
             # testing network delay effect
@@ -176,17 +179,17 @@ class Transaction(models.Model):
             self.status = "successful"
             self.save()
 
-        feedback_msg = "Your transfer  of {}{} was successful".format(self.user.wallet.currency,self.amount)
-        
-        return { 'success': feedback_msg , 'success_url' : reverse("dashboard")}
+        feedback_msg = "Your transfer  of {}{} was successful".format(
+            self.user.wallet.currency, self.amount)
 
+        return {'success': feedback_msg, 'success_url': reverse("dashboard")}
 
     def save(self, *args, **kwargs):
 
         if not self.transaction_id:
             self.transaction_id = self.get_transaction_id()
 
-        if self.amount :
+        if self.amount:
             self.amount = round(self.amount, 2)
 
         if not self.new_date:

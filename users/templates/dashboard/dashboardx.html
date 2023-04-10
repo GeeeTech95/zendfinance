@@ -1,0 +1,118 @@
+{% extends 'dashboard-base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="user-content">
+    <div class="user-panel">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tile-item tile-light">
+                            <div class="tile-bubbles"></div>
+                            <h6 class="tile-title">LEDGER BALANCE</h6>
+                            <ul class="tile-info-list">
+
+                                <li><span>{{user.wallet.currency}}{{user.wallet.ledger_balance|intcomma}}</span></li>
+
+                            </ul>
+                            <div class="tile-title">
+                                Available Balance :
+                                <span>
+                                    {{user.wallet.currency}}{{user.wallet.available_balance|intcomma}}
+                                </span><br>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div><!-- .col -->
+
+        </div><!-- .row -->
+
+        <div class="table-responsive">
+            <h4>Recent Transactions
+
+                {% if recent_transactions %}
+                <span style="float: right;">
+                    <a href="{% url 'transaction-history' %}">View all</a>
+                </span>
+                {% endif %}
+            </h4>
+
+
+            {% if not recent_transactions %}
+            <div class="status status-empty">
+                <div class="status-icon">
+                    <em class="ti ti-files"></em>
+                    <div class="status-icon-sm">
+                        <em class="ti ti-close"></em>
+                    </div>
+                </div>
+                <span class="status-text">You have no transactions yet</span>
+
+            </div>
+            {% else %}
+            <table class="data-table tranx-table">
+                <thead>
+                   
+                    <tr>
+                        <!--th>TRX REF.</th-->
+                        <th class="activity-time">
+                            <span>Date</span>
+                        </th>
+                        <th class="activity-time">
+                            <span>Amount</span>
+                        </th>
+                       
+                        <th class="activity-time">
+                            <span>Action</span>
+                        </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for tx in recent_transactions %}
+                    <tr>
+                     
+                        <td class="tranx-no"><span>
+                            <c style="font-size: 11px;">{{tx.description}}</c>
+                        </span>{{tx.show_date|date:"j b, Y"}} {{tx.show_date.time}}</td>
+                        <td class="tranx-token"><span>
+                            {% if tx.transaction_type == "debit" %}
+                            -{{user.wallet.currency}}{{tx.amount|intcomma}}
+                            {% else %}
+                            +{{user.wallet.currency}}{{tx.amount|intcomma}}
+                            {% endif %}
+                        </span></td>
+                       
+                        <td >
+                            {% if tx.status == "pending" %}
+                            <a href="{% url 'complete-transaction' tx.transaction_id %}" 
+                            class="btn btn-xs btn-warning">
+                                complete
+                            </a>
+                         
+                            {% else %}
+                            <a href="#" data-toggle="modal" data-target="#tranxApproved"><em class="ti ti-more-alt"></em></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                 
+                    {% endfor %}
+
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+
+    </div><!-- .user-panel -->
+</div><!-- .user-content -->
+
+{% endblock %}
